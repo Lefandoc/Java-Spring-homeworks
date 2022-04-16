@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.getTitle()}"></title>
+    <style>
+        body {
+            background-color: antiquewhite;
+            text-align: center;
+            margin: 40px;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+<h2>Product with id
+    <span style="font-size: larger" th:text="${product.getId()}"></span>
+</h2>
+<p>
+    <span th:text="${product.printTC()}"></span>
+</p>
+<br>
+<br>
+<a th:href="@{'/products/all'}">Go to product list</a>
+</body>
+</html>

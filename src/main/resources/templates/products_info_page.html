@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products info page</title>
+    <style>
+        body {
+            background-color: antiquewhite;
+            text-align: center;
+            margin: 40px;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+<h2>Products list</h2>
+<div th:each="p : ${products}">
+    <a th:href="@{'/products/' + ${p.getId()}}"><span th:text="${p.getTitle()}"></span></a>
+    <a th:href="@{'/cart/put/' + ${p.getId()}}"><span> add to cart</span><br></a>
+    <br>
+</div>
+</body>
+</html>
