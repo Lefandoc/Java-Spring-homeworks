@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart info page</title>
+    <style>
+        body {
+            background-color: antiquewhite;
+            /*text-align: center;*/
+            font-family: "Lucida Console", "Courier New", monospace;
+            margin: 50px 525px;
+        }
+        h2 {
+            text-align: center;
+        }
+        p1 {
+            color: limegreen;
+        }
+        span {
+            text-align: right;
+        }
+        .grid-container {
+            display: grid;
+            grid-template: 'left right';
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+<h2>Products in cart</h2>
+<div class="grid-container" th:each="p : ${list}">
+    <a th:href="@{'/products/' + ${p.getId()}}"><span style="text-align: left" th:text="${p.toString()}"></span></a>
+    <a th:href="@{'/cart/remove/' + ${p.getId()}}"><span style="text-align: right"> remove</span><br></a>
+    <br>
+</div>
+<br>
+<div style="text-align: center">
+<span>You must pay full sum: </span>
+<span style="font-style: italic" th:text="${cartSum}"></span>
+<br>
+<a th:href="@{'/products/all'}"><p>Back to product list</p></a>
+<br>
+<p1 th:text="${del}? 'Successfully removed'"></p1>
+</div>
+</body>
+</html>
