@@ -2,22 +2,21 @@ package ru.gb.lefandoc.springboothw.controllers.dao.impl;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
+import ru.gb.lefandoc.springboothw.controllers.dao.CartDao;
 import ru.gb.lefandoc.springboothw.controllers.model.User;
 import ru.gb.lefandoc.springboothw.controllers.model.Product;
-import ru.gb.lefandoc.springboothw.controllers.dao.ProductDao;
 import ru.gb.lefandoc.springboothw.utils.SessionFactoryUtils;
 
 import java.util.List;
 
 @Component
-public class ProductDaoImpl implements ProductDao {
+public class CartDaoImpl implements CartDao {
 
     private final SessionFactoryUtils sessionFactoryUtils;
 
-    public ProductDaoImpl(SessionFactoryUtils sessionFactoryUtils) {
+    public CartDaoImpl(SessionFactoryUtils sessionFactoryUtils) {
         this.sessionFactoryUtils = sessionFactoryUtils;
     }
-
 
     @Override
     public Product findById(Integer id) {
@@ -30,26 +29,13 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll(Integer userId) {
         try (Session session = sessionFactoryUtils.getSession()) {
             session.beginTransaction();
-            List<Product> products = session.createQuery("SELECT p FROM Product p").getResultList();
+            User user = session.find(User.class, userId);
+            List<Product> products = user.getProductList();
             session.getTransaction().commit();
             return products;
-        }
-    }
-
-    @Override
-    public void saveOrUpdate(Product product) {
-        try (Session session = sessionFactoryUtils.getSession()) {
-            session.beginTransaction();
-            session.saveOrUpdate(product);
-            // update MY работает, но всегда нужно указывать id
-//            Optional.ofNullable(session.get(Product.class, product.getId())).ifPresentOrElse(p -> {
-//                p.setTitle(product.getTitle());
-//                p.setPrice(product.getPrice());
-//            }, () -> session.save(product)); // save
-            session.getTransaction().commit();
         }
     }
 
@@ -57,20 +43,22 @@ public class ProductDaoImpl implements ProductDao {
     public void deleteById(Integer id) {
         try (Session session = sessionFactoryUtils.getSession()) {
             session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            session.remove(product);
+            User user = session.find(User.class, 1);
+            user.getProductList().stream()
+                    .filter(product -> product.getId().equals(id))
+                    .findFirst()
+                    .ifPresent(user.getProductList()::remove);
+            session.saveOrUpdate(user);
             session.getTransaction().commit();
         }
     }
 
     @Override
-    public void addCart(Integer id) {
+    public void changeCount(Integer id, Integer delta) {
         try (Session session = sessionFactoryUtils.getSession()) {
             session.beginTransaction();
-            User user = session.get(User.class, 1);
             Product product = session.get(Product.class, id);
-            user.getProductList().add(product);
-            session.saveOrUpdate(user);
+            product.setCount(product.getCount() + delta);
             session.getTransaction().commit();
         }
     }

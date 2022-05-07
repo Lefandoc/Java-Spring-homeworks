@@ -16,8 +16,6 @@ import java.util.List;
 @Component
 public class ProductRepository {
 
-    private List<Product> productList;
-
     @Autowired
     SessionFactoryUtils sessionFactoryUtils;
 
@@ -52,16 +50,13 @@ public class ProductRepository {
 //                .orElseThrow(RuntimeException::new);
     }
 
-    public void changeCount(Integer id, Integer delta) {
-        Product product = getProduct(id);
-        int index = productList.indexOf(product);
-//        product.setCount(product.getCount() + delta);
-        productList.set(index, product);
-    }
-
     public void deleteProduct(Integer id) {
-        Product product = getProduct(id);
-        productList.remove(product);
+        productDao.deleteById(id);
+//        Product product = getProduct(id);
+//        productList.remove(product);
     }
 
+    public void addCart(Integer id) {
+        productDao.addCart(id);
+    }
 }

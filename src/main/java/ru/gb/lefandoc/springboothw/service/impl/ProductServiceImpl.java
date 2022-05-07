@@ -29,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void changeCount(Integer id, Integer delta) {
-        repository.changeCount(id, delta);
+    public void addCart(Integer id) {
+        repository.addCart(id);
     }
 
     @Override

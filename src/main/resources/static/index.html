@@ -33,12 +33,15 @@
 <!--                {{p.count}}-->
 <!--                <button class="btn btn-primary" ng-click="changeCount(p.id, 1)">+</button>-->
 <!--            </td>-->
-<!--            <td style="text-align: center;">-->
-<!--                <button class="btn btn btn-secondary" ng-click="delete(p.id)">🗑🚮</button>-->
-<!--            </td>-->
+            <td style="text-align: center;">
+                <button class="btn btn btn-secondary" ng-click="addCart(p.id)">To cart</button>
+            </td>
         </tbody>
     </table>
     <br>
+    <a href="cart.html">
+        <button type="button" class="btn btn-info">Корзина</button>
+    </a>
 <!--    <button class="btn btn btn-success" ng-click="fill()" style="margin: 0 40%">-->
 <!--        Restore product list-->
 <!--    </button>-->

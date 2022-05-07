@@ -10,7 +10,7 @@ public interface ProductService {
 
     Product getProduct(Integer id);
 
-    void changeCount(Integer id, Integer delta);
+    void addCart(Integer id);
 
     void deleteProduct(Integer id);
 

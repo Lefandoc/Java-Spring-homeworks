@@ -32,19 +32,14 @@ public class ProductController {
         return service.getProducts();
     }
 
-    @GetMapping("/change_count")
-    public void changeCount(@RequestParam Integer productId, @RequestParam Integer delta){
-        service.changeCount(productId, delta);
+    @GetMapping("/add_cart")
+    public void addCart(@RequestParam Integer productId){
+        service.addCart(productId);
     }
 
     @GetMapping("/delete")
     public void deleteProduct(@RequestParam Integer productId) {
         service.deleteProduct(productId);
     }
-
-//    @GetMapping("/fill_products")
-//    public void fillProducts() {
-//        service.fillProducts();
-//    }
 
 }
