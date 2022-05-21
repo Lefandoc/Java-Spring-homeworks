@@ -1,10 +1,9 @@
 package ru.gb.lefandoc.springboothw.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.gb.lefandoc.springboothw.model.Product;
-import ru.gb.lefandoc.springboothw.repository.ProductRepository;
 import ru.gb.lefandoc.springboothw.service.ProductService;
+import ru.gb.lefandoc.springboothw.data.Product;
+import ru.gb.lefandoc.springboothw.repository.ProductRepository;
 
 import java.util.List;
 
@@ -13,34 +12,43 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
 
-    @Autowired
     public ProductServiceImpl(ProductRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public List<Product> getProducts() {
-        return repository.getProductList();
+    public List<Product> findAll() {
+        return repository.findAll();
     }
 
     @Override
-    public Product getProduct(Integer id) {
-        return repository.getProduct(id);
+    public Product find(Long id) {
+        return repository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Override
-    public void changeCount(Integer id, Integer delta) {
-        repository.changeCount(id, delta);
+    public List<Product> findLessThan(Integer price) {
+        return repository.findAllByPriceLessThan(price);
     }
 
     @Override
-    public void deleteProduct(Integer id) {
-        repository.deleteProduct(id);
+    public List<Product> findGreaterThan(Integer price) {
+        return repository.findAllByPriceGreaterThan(price);
     }
 
     @Override
-    public void fillProducts() {
-        repository.fillProducts();
+    public List<Product> findBetween(Integer min, Integer max) {
+        return repository.findAllByPriceBetween(min, max);
+    }
+
+    @Override
+    public void add(Product product) {
+        repository.save(product);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
 }

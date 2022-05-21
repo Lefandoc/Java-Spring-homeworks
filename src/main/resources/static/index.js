@@ -2,7 +2,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     const contextPath = 'http://localhost:9082/app';
 
     $scope.loadProducts = function () {
-        $http.get(contextPath + '/products/all')
+        $http.get(contextPath + '/products/get')
             .then(function (response) {
                 $scope.productList = response.data;
             });
@@ -26,7 +26,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
             url: contextPath + '/products/delete',
             method: 'GET',
             params: {
-                productId: productId
+                id: productId
             }
         }).then(function (response){
             $scope.loadProducts();
@@ -39,6 +39,27 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
             method: 'GET'
         }).then(function (response){
             $scope.loadProducts();
+        });
+    };
+
+    $scope.addProduct = function (){
+        $http.post(contextPath + '/products/add', $scope.newProduct)
+            .then(function (response) {
+                $scope.loadProducts()
+            });
+    }
+
+    $scope.sortProducts = function (min, max){
+        $http({
+            url: contextPath + '/products/get_btw',
+            method: 'GET',
+            params: {
+                min: min,
+                max: max
+            }
+        }).then(function (response){
+            // $scope.loadProducts();
+            $scope.productList = response.data;
         });
     };
 

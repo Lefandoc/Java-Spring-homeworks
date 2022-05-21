@@ -1,19 +1,22 @@
 package ru.gb.lefandoc.springboothw.service;
 
-import ru.gb.lefandoc.springboothw.model.Product;
+import ru.gb.lefandoc.springboothw.data.Product;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<Product> getProducts();
+    Product find(Long id);
 
-    Product getProduct(Integer id);
+    List<Product> findAll();
 
-    void changeCount(Integer id, Integer delta);
+    void add(Product product);
 
-    void deleteProduct(Integer id);
+    void delete(Long id);
 
-    void fillProducts();
+    List<Product> findLessThan(Integer price);
 
+    List<Product> findGreaterThan(Integer price);
+
+    List<Product> findBetween(Integer min, Integer max);
 }
