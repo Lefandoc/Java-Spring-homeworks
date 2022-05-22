@@ -1,9 +1,18 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:9082/app';
+    const contextPath = 'http://localhost:9082/app/api/v1';
 
-    $scope.loadProducts = function () {
-        $http.get(contextPath + '/products/get')
-            .then(function (response) {
+    $scope.loadProducts = function (min, max, title) {
+        // $http.get(contextPath + '/products')
+        $http({
+            url: contextPath + '/products',
+            method: 'GET',
+            params: {
+                min: min,
+                max: max,
+                title: title
+            }
+        }).then(function (response) {
+                console.log(response.data);
                 $scope.productList = response.data;
             });
     };
@@ -29,7 +38,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 id: productId
             }
         }).then(function (response){
-            $scope.loadProducts();
+            $scope.loadProducts($scope.min, $scope.max, $scope.title)
         });
     };
 
@@ -43,9 +52,10 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     };
 
     $scope.addProduct = function (){
-        $http.post(contextPath + '/products/add', $scope.newProduct)
+        console.log($scope.newProduct);
+        $http.post(contextPath + '/products', $scope.newProduct)
             .then(function (response) {
-                $scope.loadProducts()
+                $scope.loadProducts($scope.min, $scope.max, $scope.title)
             });
     }
 
@@ -58,8 +68,9 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 max: max
             }
         }).then(function (response){
-            // $scope.loadProducts();
-            $scope.productList = response.data;
+            $scope.loadProducts(min, max);
+            console.log(response.data);
+            // $scope.productList = response.data;
         });
     };
 

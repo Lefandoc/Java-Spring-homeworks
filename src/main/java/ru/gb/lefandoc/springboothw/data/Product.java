@@ -3,6 +3,7 @@ package ru.gb.lefandoc.springboothw.data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.gb.lefandoc.springboothw.model.ProductDto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,5 +31,10 @@ public class Product {
     public Product(String title, Integer price) {
         this.title = title;
         this.price = price;
+    }
+
+    public Product(ProductDto productDto) {
+        this.title = productDto.getTitle();
+        this.price = productDto.getPrice();
     }
 }

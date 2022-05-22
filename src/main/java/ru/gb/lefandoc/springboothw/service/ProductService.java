@@ -1,6 +1,7 @@
 package ru.gb.lefandoc.springboothw.service;
 
 import ru.gb.lefandoc.springboothw.data.Product;
+import ru.gb.lefandoc.springboothw.model.ProductDto;
 
 import java.util.List;
 
@@ -10,7 +11,9 @@ public interface ProductService {
 
     List<Product> findAll();
 
-    void add(Product product);
+    List<Product> findSpec(Integer minPrice, Integer maxPrice, String title);
+
+    void add(ProductDto productDto);
 
     void delete(Long id);
 

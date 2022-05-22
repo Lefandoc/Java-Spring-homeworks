@@ -1,6 +1,9 @@
 package ru.gb.lefandoc.springboothw.service.impl;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.gb.lefandoc.springboothw.model.ProductDto;
+import ru.gb.lefandoc.springboothw.repository.specification.ProductSpecification;
 import ru.gb.lefandoc.springboothw.service.ProductService;
 import ru.gb.lefandoc.springboothw.data.Product;
 import ru.gb.lefandoc.springboothw.repository.ProductRepository;
@@ -19,6 +22,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Product> findSpec(Integer minPrice, Integer maxPrice, String title) {
+        Specification<Product> spec = Specification.where(null);
+
+        if (minPrice != 0) {
+            spec = spec.and(ProductSpecification.priceGreaterThan(minPrice));
+        }
+        if (maxPrice != 100) {
+            spec = spec.and(ProductSpecification.priceLessThan(maxPrice));
+        }
+        if (title != null && !title.isEmpty()) {
+            spec = spec.and(ProductSpecification.partTitleEquals(title));
+        }
+
+        return repository.findAll(spec);
     }
 
     @Override
@@ -42,8 +62,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void add(Product product) {
-        repository.save(product);
+    public void add(ProductDto productDto) {
+        repository.save(new Product(productDto));
     }
 
     @Override

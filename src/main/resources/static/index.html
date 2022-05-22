@@ -21,9 +21,10 @@
 <body style="margin: 25px">
 <div class="container" ng-controller="indexController">
     <h3>Products list</h3>
-    <form novalidate ng-submit="sortProducts(min, max)" style="margin-bottom: 15px; display: flex; flex-direction: row">
+    <form novalidate ng-submit="loadProducts(min, max, title)" style="margin-bottom: 15px; display: flex; flex-direction: row">
         <input class="form-control" type="number" placeholder="min price" ng-model="min">
         <input class="form-control" type="number" placeholder="max price" ng-model="max">
+        <input class="form-control" type="text" placeholder="title part" ng-model="title">
         <p></p>
         <button style="margin-right: 150px" type="submit" class="btn btn-info">Sort</button>
     </form>
@@ -59,7 +60,7 @@
         <p></p>
         <input class="form-control" type="number" placeholder="price" ng-model="newProduct.price">
         <p></p>
-        <button type="submit" class="btn btn-success">Add new product</button>
+        <button type="submit" class="btn btn-success" onclick="this.form.reset();">Add new product</button>
     </form>
 </div>
 </body>
