@@ -2,12 +2,15 @@ package ru.gb.lefandoc.springboothw.service.impl;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.gb.lefandoc.springboothw.exceptions.ProductNotFoundException;
 import ru.gb.lefandoc.springboothw.model.ProductDto;
 import ru.gb.lefandoc.springboothw.repository.specification.ProductSpecification;
 import ru.gb.lefandoc.springboothw.service.ProductService;
 import ru.gb.lefandoc.springboothw.data.Product;
 import ru.gb.lefandoc.springboothw.repository.ProductRepository;
+import ru.gb.lefandoc.springboothw.validators.ProductValidator;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -62,8 +65,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void add(ProductDto productDto) {
-        repository.save(new Product(productDto));
+    public void add(Product product) {
+        repository.save(product);
+    }
+
+    @Override
+    @Transactional
+    public void update(ProductDto productDto) {
+        Product product = repository.findById(productDto.getId())
+                .orElseThrow(() -> new ProductNotFoundException("Can not update product; not found id:" + productDto.getId()));
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
     }
 
     @Override

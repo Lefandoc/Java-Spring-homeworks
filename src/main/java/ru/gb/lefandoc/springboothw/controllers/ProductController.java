@@ -1,5 +1,6 @@
 package ru.gb.lefandoc.springboothw.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.gb.lefandoc.springboothw.data.Product;
 import ru.gb.lefandoc.springboothw.model.ProductDto;
 import ru.gb.lefandoc.springboothw.service.ProductService;
+import ru.gb.lefandoc.springboothw.validators.ProductValidator;
 
 import java.util.List;
 
@@ -21,9 +23,12 @@ public class ProductController {
 
     private final ProductService service;
 
+    private final ModelMapper mapper;
+
     @Autowired
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service, ModelMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping("")
@@ -41,14 +46,13 @@ public class ProductController {
         return service.find(id);
     }
 
-    @Deprecated(since = ":D")
+    @Deprecated(since = "added spec to findAll")
     @GetMapping("/get_less")
     public List<Product> lessThan(@RequestParam Integer price) {
         return service.findLessThan(price);
     }
 
-    @Deprecated(since = ":D")
-
+    @Deprecated(since = "added spec to findAll")
     @GetMapping("/get_greater")
     public List<Product> greaterThan(@RequestParam Integer price) {
         return service.findGreaterThan(price);
@@ -62,7 +66,15 @@ public class ProductController {
 
     @PostMapping("")
     public void add(@RequestBody ProductDto productDto) {
-        service.add(productDto);
+        ProductValidator.validate(productDto);
+        Product product = mapper.map(productDto, Product.class);
+        service.add(product);
+    }
+
+    @PostMapping("/update")
+    public void update(@RequestBody ProductDto productDto) {
+        ProductValidator.validate(productDto);
+        service.update(productDto);
     }
 
     @GetMapping("/delete")

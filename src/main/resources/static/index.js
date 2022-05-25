@@ -12,12 +12,12 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 title: title
             }
         }).then(function (response) {
-                console.log(response.data);
-                $scope.productList = response.data;
-            });
+            console.log(response.data);
+            $scope.productList = response.data;
+        });
     };
 
-    $scope.changeCount = function (productId, delta){
+    $scope.changeCount = function (productId, delta) {
         $http({
             url: contextPath + '/products/change_count',
             method: 'GET',
@@ -25,41 +25,45 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 productId: productId,
                 delta: delta
             }
-        }).then(function (response){
+        }).then(function (response) {
             $scope.loadProducts();
         });
     };
 
-    $scope.delete = function (productId){
+    $scope.delete = function (productId) {
         $http({
             url: contextPath + '/products/delete',
             method: 'GET',
             params: {
                 id: productId
             }
-        }).then(function (response){
+        }).then(function (response) {
             $scope.loadProducts($scope.min, $scope.max, $scope.title)
         });
     };
 
-    $scope.fill = function (){
+    $scope.fill = function () {
         $http({
             url: contextPath + '/products/fill_products',
             method: 'GET'
-        }).then(function (response){
+        }).then(function (response) {
             $scope.loadProducts();
         });
     };
 
-    $scope.addProduct = function (){
+    $scope.addProduct = function () {
         console.log($scope.newProduct);
+        if (typeof $scope.newProduct.id instanceof "bigint") {
+            console.log($scope.newProduct.id)
+            console.log('pipipi')
+        }
         $http.post(contextPath + '/products', $scope.newProduct)
             .then(function (response) {
                 $scope.loadProducts($scope.min, $scope.max, $scope.title)
             });
     }
 
-    $scope.sortProducts = function (min, max){
+    $scope.sortProducts = function (min, max) {
         $http({
             url: contextPath + '/products/get_btw',
             method: 'GET',
@@ -67,7 +71,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 min: min,
                 max: max
             }
-        }).then(function (response){
+        }).then(function (response) {
             $scope.loadProducts(min, max);
             console.log(response.data);
             // $scope.productList = response.data;

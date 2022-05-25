@@ -3,12 +3,8 @@ package ru.gb.lefandoc.springboothw.model;
 import lombok.Data;
 
 @Data
-public class ProductDto {
+public class CreateProductDto {
 
     private Long id;
-
-    private String title;
-
-    private Integer price;
 
 }

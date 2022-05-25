@@ -13,7 +13,7 @@ public interface ProductService {
 
     List<Product> findSpec(Integer minPrice, Integer maxPrice, String title);
 
-    void add(ProductDto productDto);
+    void add(Product product);
 
     void delete(Long id);
 
@@ -22,4 +22,6 @@ public interface ProductService {
     List<Product> findGreaterThan(Integer price);
 
     List<Product> findBetween(Integer min, Integer max);
+
+    void update(ProductDto productDto);
 }
