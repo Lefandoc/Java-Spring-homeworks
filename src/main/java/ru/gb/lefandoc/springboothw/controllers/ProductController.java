@@ -18,7 +18,7 @@ import ru.gb.lefandoc.springboothw.validators.ProductValidator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1//products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService service;
@@ -31,7 +31,7 @@ public class ProductController {
         this.mapper = mapper;
     }
 
-    @GetMapping("")
+    @GetMapping("/get_all")
     public List<Product> getAll(@RequestParam(defaultValue = "0") Integer min,
                                 @RequestParam(defaultValue = "100") Integer max,
                                 @RequestParam(required = false) String title) {
