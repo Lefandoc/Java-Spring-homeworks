@@ -18,7 +18,7 @@ import ru.gb.lefandoc.springboothw.validators.ProductValidator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/api/v1/cart")
 public class CartController {
 
     private final CartService cartService;

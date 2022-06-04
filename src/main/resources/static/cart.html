@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--suppress JSUnresolvedLibraryURL -->
+<html ng-app="cart">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script src="cart.js"></script>
+  <title>Корзина</title>
+</head>
+<body>
+<div class="container" ng-controller="cartController">
+  <h3>Корзина</h3>
+  <table class="table table-hover" cellpadding="0" cellspacing="0">
+    <tr>
+      <!--            <td style="width: 150px;">ID</td>-->
+      <td style="width: 300px;">Title</td>
+      <td style="width: 200px;">Price</td>
+      <td style="width: 200px; text-align: center;">Count</td>
+      <td style="width: 300px; text-align: center;">Delete</td>
+    </tr>
+    <tbody>
+    <tr ng-repeat="p in productList">
+      <!--            <td>{{p.id}}</td>-->
+      <td>{{p.title}}</td>
+      <td>{{p.price}}</td>
+      <td style="text-align: center;">
+        <button class="btn btn-danger" ng-click="changeCount(p.id, -1)">-</button>
+        {{p.count}}
+        <button class="btn btn-primary" ng-click="changeCount(p.id, 1)">+</button>
+      </td>
+      <td style="text-align: center;">
+        <button class="btn btn btn-secondary" ng-click="delete(p.id)">🗑🚮</button>
+      </td>
+    </tbody>
+  </table>
+  <br>
+  <a href="index.html">
+    <button type="button" class="btn btn-info">Список продуктов</button>
+  </a>
+  <!--    <button class="btn btn btn-success" ng-click="fill()" style="margin: 0 40%">-->
+  <!--        Restore product list-->
+  <!--    </button>-->
+</div>
+</body>
+</html>
